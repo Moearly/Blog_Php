@@ -1,0 +1,7 @@
+ <ifModule mod_rewrite.c>
+    RewriteEngine On
+
+    RewriteRule ^news$ index.php?type=news
+    RewriteRule ^reg$ index.php?type=reg
+  </ifModule>
+
