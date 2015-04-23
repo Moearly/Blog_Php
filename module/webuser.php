@@ -67,16 +67,32 @@ class webuser {     //用户处理类
         }
         else if($methodName=="login") { //用户登录
             //使用用户名和邮箱均可登录
+            if($this->validateArgs($args,2)){
+                $this->userLogin($args[0],$args[1]);
+            }
         }
         else if($methodName=="logout") { //注销
-            
+            $this->userLogout();
         }
     }
 
-    //获取当前登录用户
-    static public function getCurrentUser() {
-        echo "欢迎回来：沈逸";
+    /**用户登陆
+     * @param $username
+     * @param $userpwd
+     */
+    private function userLogin($username, $userpwd){
+        //TODO：数据库的处理操作
+        if(trim($username)=="") return;
+        setcookie("webUser_Martn",$username,time()+200,"/");
     }
+
+    /**
+     * 用户离开
+     */
+    private function userLogout(){
+        setcookie("webUser_Martn","",time()-3600,"/");
+    }
+
 
     //往数据库插入用户
     private function addUser($userName,$userEmail,$userPwd1,$userPwd2) {
@@ -116,15 +132,32 @@ class webuser {     //用户处理类
         return false;
         
     }
-    
-    
-    
-    
-    
-     /* function login($uname,$upwd) //用户登录方法
-    {
-        
-    }*/
+
+    /**
+     * 判断当前是否有用户登陆
+     */
+    public static function userIsLogged(){
+        if(isset($_COOKIE["webUser_Martn"]) &&  $_COOKIE["webUser_Martn"]!=null){
+            return true;
+        }
+        return false;
+    }
+
+    //获取当前登录用户
+    static public function getCurrentUser() {
+        if(self::userIsLogged()){
+            return $_COOKIE["webUser_Martn"];
+        } else {
+            return "游客";
+        }
+    }
+
+
+
+    /* function login($uname,$upwd) //用户登录方法
+   {
+
+   }*/
     
     
   /*   //传统方法 

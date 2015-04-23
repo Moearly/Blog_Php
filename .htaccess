@@ -3,5 +3,9 @@
 
     RewriteRule ^news$ index.php?type=news
     RewriteRule ^reg$ index.php?type=reg
+    RewriteRule ^login$ index.php?type=login
+    RewriteRule ^index$ index.php
+    RewriteRule ^logout$ index.php?type=logout
+
   </ifModule>
 

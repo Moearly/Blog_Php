@@ -1,11 +1,18 @@
 <?php
-  include "debug.php";//加载调试的配置
-  include "functions.php";//加载通用函数库
+  require "debug.php";//加载调试的配置
+  require "module/webuser.php";
+  require "module/webnews.php";
+  require "functions.php";//加载通用函数库
+
   $config_defaulttitle='_程序员在囧途';//网站的默认标题(title)
   $get_pagepath=$_SERVER["PHP_SELF"];//获取当前访问页 *即将废止
 
   //echo $get_pagepath; // /news.php代表是新闻  /index.php 代表是首页
-  
+
+if(isset($_POST) && count($_POST)>0) //代表有表单提交
+{
+    func_doAction($_POST,$_GET["type"]);
+}
   
   //以下代码即将废止  ****************
 //  if($get_pagepath=='/news.php') // /news.php代表是新闻

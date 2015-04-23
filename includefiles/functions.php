@@ -1,5 +1,22 @@
 <?php
   //建立一些通用函数，来给各个页面调用,属于通用函数库
+
+function func_doAction($posts,$type)
+{
+
+    if(isset($type))
+    {
+        if($type=='login')
+        {
+            //代表用户在登录界面点了登录方法
+            require_once("module/webuser.php");
+            $user=new webuser();
+            $user->login($posts["userName"],$posts["userPwd"]);
+            header("location:/Blog_Php/index");//返回到首页
+        }
+    }
+}
+
 /**
  * des:加载模版函数
  *
@@ -11,7 +28,9 @@ function func_loadTpl() {
     $tpl_set=array(
     "news"=>"news.tpl",//新闻的模板
     "reg"=>"userreg.tpl",//注册的模板
-    "index"=>"index.tpl" //首页的模板
+    "index"=>"index.tpl",//首页的模板
+    "login"=>"userlogin.tpl",//登陆界面
+    "logout"=>"userlogout.tpl",//登出界面
     );
    
      //加载模板
@@ -41,4 +60,14 @@ function func_loadTpl() {
         include $tpl_root."index.tpl";
      }
    }
+?>
+
+<?php
+//新闻函数
+function the_news($params="")
+{
+    $getNews=new webnews();
+    $result=$getNews->loadNews("","",1,20);
+    return $result;
+}
 ?>
