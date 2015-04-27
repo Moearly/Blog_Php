@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<webConfig>
+  <configs>
+    <modules>
+     <module>
+        <name>getFrdLinks</name>
+        <sql><![CDATA[ 
+         select * from friendlinks order by id desc limit 0,10
+        ]]>
+        </sql>
+        <className>pageUtil</className>
+        <description>获取首页友情链接数据</description>
+        <resultType>array</resultType>
+       </module>
+    </modules>
+  </configs>
+</webConfig>

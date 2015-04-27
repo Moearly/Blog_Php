@@ -11,14 +11,15 @@
     <p>友情链接:
         <?php
             $link_data = getFriendLinks();
-            //var_export($link_data);
+      // var_export($link_data);
+//            var_export($link_data);
             foreach($link_data as $link) {
-                echo '<a href="http://'.$link[href].'" target="'.$link[target].'">'.$link[name].'</a> | ';
+                echo '<a href="http://'.$link[furl].'" target="'.$link[target].'">'.$link[fname].'</a> | ';
             }
         ?></p>
     <p>苏ICP备14027568号©martnlei.com Inc. All Rights Reserved</p>
 </div>
   <br /><br />
   <br /><br />
- </body>
 </html>
+</body>

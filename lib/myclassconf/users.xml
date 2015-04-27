@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<webConfig>
+  <configs>
+    <modules>
+     <module>
+        <name>usernameIsUsed</name>
+        <sql><![CDATA[ 
+         select count(*) from users where username='#{0}'   
+        ]]>
+        </sql>
+        <className>userUtil</className>
+        <description>判断用户名是否被占用</description>
+        <resultType>int</resultType>
+       </module>
+
+    </modules>
+  </configs>
+</webConfig>
