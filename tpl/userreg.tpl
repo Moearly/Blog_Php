@@ -3,15 +3,32 @@
 
 
 
+
         $("#userName").blur(function(){
            //处理name失去焦点
             if(isBlank("userName","red")) return; //为空则不用做异步判断
             execServer(1,{username:$("#userName").val()},function(result){
                 if(result==null || result!="1"){
                     showError("userName","red","用户名已经被占用");
+                }else {
+                    removeError("userName");
                 }
+
             });
         });
+
+        //在email失去焦点时，判断，邮箱格式是否正确
+        $("userEmail").blur(function(){
+            if(isBlank("userEmail","red")) return; //为空则不用做异步判断
+            execServer(1,{useremail:$("userEmail").val(),isemail:1},function(result){
+                if(result==null || result!="1") //返回1 代表邮箱不重复 ，否则就是重复
+                {
+                    showError("userEmail","邮箱已经被占用");
+                }
+                else
+                    removeError("userEmail");
+            });
+        })
 
         blankBlur("userEmail");
         //执行注册按钮提交时的内容
@@ -21,6 +38,10 @@
                     $("#userName").css("border","solid 1px #fff");
                 });
               return false;
+            }
+            //对用户名合法性的检查
+            if(!checkName("userName")) {
+                return false;
             }
             if(isBlank("userEmail","red"))
             {

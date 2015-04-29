@@ -1,5 +1,6 @@
 <script>
     $(document).ready(function(){
+
         $("#cmdLogin").click(function(){
 
             if(isBlank("txtUserName","red"))

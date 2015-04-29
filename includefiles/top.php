@@ -54,7 +54,7 @@
    <div class="userinfo">
     <span>
 <?php
-        echo webuser::getCurrentUser();
+        echo webuser::getCurrentUser()->user_name;
 ?>
     </span>
       <?php if(webuser::userIsLogged()):?>

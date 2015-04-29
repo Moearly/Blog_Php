@@ -2,7 +2,7 @@
 /**
  * 获取友情链接
  */
-require("lib/myclass.php");
+require_once("lib/myclass.php");
 function getFriendLinks() {
     //TODO:在数据库中获取
 //    //简单构造数组资源

@@ -1,9 +1,25 @@
 <?php
+require_once "lib/myclass.php";
+
+
+class loginedUser { //处理登陆的user对象
+    public $user_name="游客";//登陆对象name
+    public $user_email="游客";//登陆邮箱
+    public $user_id=0;
+
+    public function setUser($_name, $_email, $_id){
+        $this->user_email = $_email;
+        $this->user_id = $_id;
+        $this->user_name = $_name;
+    }
+}
+
 class webuser {     //用户处理类
 
     public $error_code="000";//错误编码
     private $userinfo=array(); //用户属性 数组
-    
+    public static $cookie_type = "99"; //cookie的版本号
+
     function webuser() {
          //默认在new时会调用的方法
         //echo "用户类已经初始化";
@@ -50,25 +66,16 @@ class webuser {     //用户处理类
     {
         if($methodName=="add")
         {
-            //代表是新增用户(用户注册) ,用户名和邮箱 同时唯一
-          /*  if($this->userName=="")
-
-            {
-                echo "用户名不能为空";
-            }
-            else
-            {
-                echo "用户新增成功";
-            }*/
-        //mysql 处理方法
+            //验证参数
             if($this->validateArgs($args,4)) {
-                 $this->addUser($args[0],$args[1],$args[2],$args[4]);
+                //echo "add";
+                return $this->addUser($args[0],$args[1],$args[2],$args[3]);
             }
         }
         else if($methodName=="login") { //用户登录
             //使用用户名和邮箱均可登录
             if($this->validateArgs($args,2)){
-                $this->userLogin($args[0],$args[1]);
+                return $this->userLogin($args[0],$args[1]);
             }
         }
         else if($methodName=="logout") { //注销
@@ -81,9 +88,27 @@ class webuser {     //用户处理类
      * @param $userpwd
      */
     private function userLogin($username, $userpwd){
-        //TODO：数据库的处理操作
-        if(trim($username)=="") return;
-        setcookie("webUser_Martn",$username,time()+200,"/");
+        //类容非空判断
+        if(trim($username)=="" && trim($userpwd)=="") return;
+        //对输入name判断限制
+        if(!preg_match("/^[a-zA-Z]\w{3,19}$/",$username)) //用户名只能是4-20位字母、数字、下划线组合
+            return false;
+        $ms = new myClass('users');
+        $ms->userUtil;
+        //注意返回的是一个数组
+        $ret = $ms->userLogin($username);
+        if ($ret && count($ret)==1){
+            $back = $ret[0];//取得第一行数据，也应该是唯一的数据
+            if ($back["userpwd"] == md5(trim($userpwd))) {
+                //密码相等
+                setcookie("webUser_Martn",$back["id"]."|".$username."|99",time()+200,"/");
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -96,7 +121,8 @@ class webuser {     //用户处理类
 
     //往数据库插入用户
     private function addUser($userName,$userEmail,$userPwd1,$userPwd2) {
-        
+
+        //参数的逻辑处理
         // 需要实现的函数有 isRepeat:是否重复 isFormat:是否格式正确
         if($userPwd1=="" || $userPwd1!=$userPwd2 ) //密码填写不正确
         {
@@ -109,47 +135,65 @@ class webuser {     //用户处理类
             return false; //代表用用户填写数据不正确
         }
         
-        if(isFormat($userName,$userEmail))
-        {
-            $this->error_code="003";
-            return false;// 代表用户名和邮箱不符合命名规范
-        } 
-        
-        if(isRepeat($userName,$userEmail))  //用户名和Email是否 同时唯一
-        {
-              $this->error_code="004";
+//        if(isFormat($userName,$userEmail))
+//        {
+//            $this->error_code="003";
+//            return false;// 代表用户名和邮箱不符合命名规范
+//        }
+//
+//        if(isRepeat($userName,$userEmail))  //用户名和Email是否 同时唯一
+//        {
+//              $this->error_code="004";
+//            return false;
+//        }
+
+        if(!preg_match("/^[a-zA-Z]\w{3,19}$/",$userName)) //用户名只能是4-20位字母、数字、下划线组合
             return false;
-        }
-        
-        
-        $ret=DataBase::addData($userName,$userEmail,$userPwd1,$userPwd2); //插入数据,数据层待扩展
+//echo "has_add";
+        $mc=new myClass("users");
+        $mc->userUtil;
+        //var_dump($mc);
+
+        $ret = $mc->addUserToDB($userName,md5($userPwd1),$userEmail);
+        //var_dump($ret);
         if($ret && intval($ret)>0) //代表插入数据库成功
         {
              $this->error_code="000";
+            //echo "has_done";
             return true;
+        } else {
+            $this->error_code="009";//代表未处理到的错误
+            return false;
         }
-        $this->error_code="009";//代表未处理到的错误
-        return false;
-        
+
     }
 
     /**
      * 判断当前是否有用户登陆
      */
     public static function userIsLogged(){
-        if(isset($_COOKIE["webUser_Martn"]) &&  $_COOKIE["webUser_Martn"]!=null){
+        if (self::getCurrentUser()->user_id == 0) {
+            //表示没有用户登陆
+            return false;
+        } else {
             return true;
         }
-        return false;
+
     }
 
     //获取当前登录用户
     static public function getCurrentUser() {
-        if(self::userIsLogged()){
-            return $_COOKIE["webUser_Martn"];
+        $get_cvalue = $_COOKIE["webUser_Martn"];
+        $get_cvalue = explode("|",$get_cvalue);//拆分cookie--string中的信息
+        if ($get_cvalue && count($get_cvalue) == 3 && intval($get_cvalue[0])>0 && $get_cvalue[2] == self::$cookie_type) {
+            //返回数据成功,表示有用户登陆
+            $loginUser = new loginedUser();
+            $loginUser->setUser($get_cvalue[1],"",intval($get_cvalue[0]));
+            return $loginUser;
         } else {
-            return "游客";
+            return new loginedUser();
         }
+
     }
 
 

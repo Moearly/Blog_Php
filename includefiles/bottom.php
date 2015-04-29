@@ -4,7 +4,7 @@
     .buttom a:hover{text-decoration: underline}
 </style>
 <?php
-    include "module/page.php";
+    require "module/page.php";
 ?>
 
 <div class="buttom">

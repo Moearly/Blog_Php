@@ -11,9 +11,30 @@ function func_doAction($posts,$type)
             //代表用户在登录界面点了登录方法
             require_once("module/webuser.php");
             $user=new webuser();
-            $user->login($posts["userName"],$posts["userPwd"]);
-            header("location:/Blog_Php/index");//返回到首页
+            $ret = $user->login($posts["userName"],$posts["userPwd"]);
+            if ($ret) {
+                //登陆成功
+                header("location:/Blog_Php/index");//返回到首页
+            } else {
+                //TODO:错误页面模版实现
+                echo "登陆失败";
+            }
+
+
         }
+        if ($type == 'reg') {
+            //代表请求注册数据
+            require_once("module/webuser.php");
+            $user=new webuser();
+            $ret= $user->add($posts["userName"],$posts["userEmail"],$posts["userPwd1"],$posts["userPwd2"]);
+            if ($ret) {
+                header("location:/Blog_Php/index");//返回首页---->后期逻辑，还是要注册后就能登陆
+            } else {
+                //TODO:错误页面模版实现
+                echo "注册失败";
+            }
+        }
+
     }
 }
 

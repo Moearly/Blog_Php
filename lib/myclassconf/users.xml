@@ -13,6 +13,26 @@
         <resultType>int</resultType>
        </module>
 
+        <module>
+            <name>addUserToDB</name>
+            <sql><![CDATA[
+                call userReg('#{0}','#{1}','#{2}')
+            ]]>
+            </sql>
+            <className>userUtil</className>
+            <description>用户新增，插入数据库</description>
+            <resultType>int</resultType>
+        </module>
+        <module>
+            <name>userLogin</name>
+            <sql><![CDATA[
+                select userpwd,useremail,id from users where username='#{0}' limit 0,1
+            ]]>
+            </sql>
+            <className>userUtil</className>
+            <description>简单用户登陆的判断方法</description>
+            <resultType>array</resultType>
+        </module>
     </modules>
   </configs>
 </webConfig>

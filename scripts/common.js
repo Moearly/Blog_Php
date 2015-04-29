@@ -21,6 +21,14 @@ function showError(objid,color,mes){
 
 }
 
+function removeError(id){
+    //删除构建区域的错误
+    var errorInfo = $("#"+id).parent().find(".errInfo");
+    if(errorInfo.length>0) {
+        $("#"+id).parent().find(".errInfo").remove();
+    }
+}
+
 /**
  * 判断是否为空,并调整颜色
  * @param objid
@@ -52,6 +60,16 @@ function isCheck(objid){
         return true;
     }
     return false;
+}
+
+function checkName(inputname) {
+    var reg=/^[a-zA-Z]\w{3,19}$/;
+    if(reg.test($("#"+inputname).val())==false){
+        alert("用户名只能是4-20位字母、数字、下划线组合");
+        return false;
+    }else {
+        return true;
+    }
 }
 
 function isEmail(id,border)//文本框的值 是否是Email格式
