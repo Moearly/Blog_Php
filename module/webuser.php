@@ -80,7 +80,35 @@ class webuser {     //用户处理类
         }
         else if($methodName=="logout") { //注销
             $this->userLogout();
+        }else if ($methodName == "addUserPic") {//上传用户头像
+            if ($this->validateArgs($args, 2)) {
+                return $this->addUserPic($args[0], $args[1]);
+            }
         }
+    }
+
+    /**
+     * 上传头像
+     * @param $file
+     * @param $username
+     */
+    private function addUserPic($file, $username) {
+        if (!empty($file['user_pic']['name']) && $file['user_pic']['size']>0) {
+            //验证图片类型（限定）
+            $allowType = array("image/pjpeg","image/jpeg");
+            if(!in_array($file['user_pic']['type'], $allowType)) exit("只能上传jpg的图片");
+            //取出图片尾缀
+            $fileName = explode(".", $file['user_pic']['name']);
+            $fileType = $fileName[count($fileName)-1];
+            if (move_uploaded_file($file['user_pic']['tmp_name'], "userheader/" . $username . "." . $fileType)) {
+                exit("<script>self.top.location.reload()</script>");
+            } else {
+                exit("上传失败，请重新上传");
+            }
+        } else {
+            exit("请重新上传图片");
+        }
+
     }
 
     /**用户登陆

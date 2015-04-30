@@ -6,7 +6,7 @@
 <?php
     require "module/page.php";
 ?>
-
+<?php if(!$__hideNav): ?>
 <div class="buttom">
     <p>友情链接:
         <?php
@@ -19,6 +19,7 @@
         ?></p>
     <p>苏ICP备14027568号©martnlei.com Inc. All Rights Reserved</p>
 </div>
+<?php endif; ?>
   <br /><br />
   <br /><br />
 </html>

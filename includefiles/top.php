@@ -47,16 +47,17 @@
 </style>
  </head>
  <body>
+ <?php if(!$__hideNav): ?>
  <div class="container"> <!--外部大div -->
   <div class="top">  <!--宽度为1000px -->
    <div class="logo"><a href="/"><img src="images/logo.png" alt="程序员在囧途" /></a></div>
 
    <div class="userinfo">
-    <span>
+    <span><a href="/Blog_Php/my">
 <?php
         echo webuser::getCurrentUser()->user_name;
 ?>
-    </span>
+    </a></span>
       <?php if(webuser::userIsLogged()):?>
       | <a href="/Blog_Php/logout">安全退出</a>
       <?php else:?>
@@ -68,7 +69,7 @@
     </div>
   </div>
 </div>
-
+<?php endif; ?>
 <?php
           func_loadTpl();
 ?>

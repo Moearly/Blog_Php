@@ -3,9 +3,15 @@
 
     RewriteRule ^news$ index.php?type=news
     RewriteRule ^reg$ index.php?type=reg
-    RewriteRule ^login$ index.php?type=login
+
     RewriteRule ^index$ index.php
     RewriteRule ^logout$ index.php?type=logout
+    RewriteRule ^my$ index.php?type=onecenter
+    RewriteRule ^popic$ index.php?type=userpic
+
+    RewriteCond %{QUERY_STRING} ^from=(.*)
+    RewriteRule ^login$ index.php?type=login&from=%1
+    RewriteRule ^login$ index.php?type=login
 
   </ifModule>
 
