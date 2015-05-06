@@ -82,7 +82,8 @@ function func_loadTpl() {
     "login"=>"userlogin.tpl",//登陆界面
     "logout"=>"userlogout.tpl",//登出界面
     "onecenter"=>"onecenter.tpl",//个人中心
-    "userpic"=>"userpic.tpl"//图片选择上传
+    "userpic"=>"userpic.tpl",//图片选择上传
+        "newsadd"=>"newsadd.tpl",//新闻投稿，编辑
     );
    
      //加载模板

@@ -13,5 +13,7 @@
     RewriteRule ^login$ index.php?type=login&from=%1
     RewriteRule ^login$ index.php?type=login
 
+    RewriteRule ^addnews$ index.php?type=newsadd
+
   </ifModule>
 

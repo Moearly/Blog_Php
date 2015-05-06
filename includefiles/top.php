@@ -8,12 +8,13 @@
      <script src="scripts/jq.js"></script>
      <script src="scripts/common.js"></script>
   <style>
- *{margin:0 auto;text-align:center;font-size:14px;font-family:"微软雅黑"; }
- body{background: url(images/bg.jpg);}
- .container{background-color:#474747;height:130px;margin:0 auto;color: #fff;}
+
+ *{margin:0; padding:0;font-size:14px;font-family:"微软雅黑";vertical-align: baseline;}
+ body{background: url(images/bg.jpg); line-height: 1;}
+ .container{background-color:#474747;height:130px;color: #fff;}
  .container a{color:#fff;text-decoration: none;}
  .container a:hover{text-decoration: underline;}
- .container .top{width:1000px}
+ .container .top{width:1000px;margin: auto}
  
  .logo{float:left;width:300px;margin-top:30px}
  .container .menu{float:left;margin-top:30px;width:500px;text-align:left}
@@ -64,7 +65,7 @@
       | <a href="/Blog_Php/login">立即登录</a> | <a href="/Blog_Php/reg">注册</a>
       <?php endif;?>
     </div>
-   <div class="menu"><a href="/Blog_Php/index">首页</a>  |  <a href="/Blog_Php/news">新闻</a> |  <a href="/Blog_Php/reg">用户注册</a>
+   <div class="menu"><a href="/Blog_Php/index">首页</a>  |  <a href="/Blog_Php/news">新闻</a> |  <a href="/Blog_Php/reg">用户注册</a> | <a href="/Blog_Php/addnews">新闻投稿</a>
     <input type="text" class="search" />
     </div>
   </div>

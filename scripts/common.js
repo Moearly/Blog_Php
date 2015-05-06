@@ -9,6 +9,12 @@ $(document).ready(function() {
         getClass = getClass.replace("readyShow", "");
         $(".readyShow").attr("class", getClass);
     }
+
+    //适配屏幕
+    if(screen.width>1024 && $(".adaptertable").length>0)
+    {
+        $(".adaptertable").animate({width:"1000px"},900);
+    }
 })
 
 function showError(objid,color,mes){

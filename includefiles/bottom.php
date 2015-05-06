@@ -1,5 +1,5 @@
 <style>
-    .buttom{height: 90px;width: 100%;background: #474747;margin: 0 auto;position: fixed;bottom: 0;padding-top: 20px;color: #fff}
+    .buttom{line-height: normal;text-align:center;height: 90px;width: 100%;background: #474747;margin: 0 auto;position: fixed;bottom: 0;padding-top: 20px;color: #fff}
     .buttom a{color: #ffffff;text-decoration: none}
     .buttom a:hover{text-decoration: underline}
 </style>
